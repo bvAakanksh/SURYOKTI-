@@ -1,0 +1,70 @@
+{
+    "dataset_name": "site_b_hourly_weather.csv",
+    "target_column": "capacity_factor",
+    "timestamp_column": "datetime_utc",
+    "elevation_column": "solar_elevation_deg",
+    "rated_capacity": 50.0,
+    "winner_model": "XGBoost",
+    "split_metadata": {
+        "strategy": "chronological",
+        "total_samples": 9334,
+        "train_samples": 6533,
+        "val_samples": 933,
+        "test_samples": 1868,
+        "train_time_span": [
+            "2025-04-30 21:00:00",
+            "2026-02-02 03:00:00"
+        ],
+        "val_time_span": [
+            "2026-02-02 04:00:00",
+            "2026-03-13 00:00:00"
+        ],
+        "test_time_span": [
+            "2026-03-13 01:00:00",
+            "2026-05-31 20:00:00"
+        ]
+    },
+    "validation_metrics": {
+        "r2": 0.8385,
+        "mae": 0.0443,
+        "rmse": 0.0986,
+        "mbe": -0.0013,
+        "nrmse_mean_pct": 77.74,
+        "sample_count": 933
+    },
+    "test_metrics": {
+        "r2": 0.8906,
+        "mae": 0.053,
+        "rmse": 0.1035,
+        "mbe": -0.0145,
+        "nrmse_mean_pct": 45.24,
+        "sample_count": 1868,
+        "nrmse_rated_pct": 0.21,
+        "rated_capacity": 50.0
+    },
+    "leakage_features_excluded": [
+        "active_power_kw",
+        "cumulative_energy_kwh",
+        "daily_energy_kwh",
+        "dc_input_power_kw",
+        "efficiency_pct",
+        "grid_freq_hz",
+        "inverter_status",
+        "inverter_temp_c",
+        "is_generating",
+        "power_factor"
+    ],
+    "numerical_features": [
+        "temp_c",
+        "humidity_pct",
+        "cloud_cover_pct",
+        "wind_speed_kmh",
+        "ghi_wm2",
+        "dni_wm2",
+        "dhi_wm2",
+        "precip_mm",
+        "solar_elevation_deg",
+        "solar_azimuth_deg"
+    ],
+    "categorical_features": []
+}

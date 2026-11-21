@@ -1,0 +1,29 @@
+{
+    "site": "Maui Ocean Center (System 2105)",
+    "rated_capacity_kw": 110.0,
+    "calibration": {
+        "isolation_forest_contamination": 0.028337925851703406,
+        "residual_mad_kw": 25.332371301602848,
+        "residual_threshold_kw": 63.33092825400712,
+        "residual_threshold_capacity_percent": 57.57357114000647
+    },
+    "alarm_distribution": {
+        "NORMAL": {
+            "count": 5771,
+            "percentage": 72.27301189730746
+        },
+        "ENVIRONMENTAL_NOVELTY": {
+            "count": 1731,
+            "percentage": 21.678146524733876
+        },
+        "SUSPICIOUS_UNDERPERFORMANCE": {
+            "count": 247,
+            "percentage": 3.0932999373825925
+        },
+        "DATA_QUALITY_ANOMALY": {
+            "count": 236,
+            "percentage": 2.95554164057608
+        }
+    },
+    "validation_limitations": "CRITICAL DISCLAIMER: The NREL PVDAQ dataset for System 2105 does not contain verified plant maintenance work orders, inverter repair logs, or verified fault ground-truth labels. Consequently, definitive Precision, Recall, and False Negative rates cannot be proven without external physical logs. Detections represent statistically and physically validated operational anomalies."
+}

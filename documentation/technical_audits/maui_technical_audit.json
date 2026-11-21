@@ -1,0 +1,115 @@
+{
+  "audit_title": "SURYOKTI Technical Audit: Maui Ocean Center (System 2105)",
+  "audit_date": "2026-11-04",
+  "audit_status": "COMPLETED",
+  "verified_items": {
+    "section_1_timestamp_alignment": {
+      "status": "VERIFIED_WITH_EXPLANATION",
+      "findings": {
+        "irradiance_source": "2105_irradiance_data.csv / solar_combined.csv",
+        "inverter_source": "2105_inv01_data.csv through 2105_inv11_data.csv",
+        "irradiance_raw_peak_hour": "01:00 UTC+3 equivalent",
+        "inverter_raw_peak_hour": "12:00 HST (Local Hawaii Standard Time)",
+        "offset_used": -13,
+        "offset_justification": "Irradiance diurnal midpoint is 01:30 in logger timestamp across all seasons. Local solar noon at Maui (lon -156.512) is 12:26 HST. Shifting irradiance by -13 hours aligns sunrise (06:00/07:00), solar noon (12:00), and sunset (18:00/19:00) with local inverter generation. Physical correlation increases from -0.5018 (antiphase) to +0.8330."
+      }
+    },
+    "section_2_ac_output_and_capacity": {
+      "status": "CONCERN_IDENTIFIED_AND_DOCUMENTED",
+      "findings": {
+        "system_metadata_dc_capacity_kw": 110.0,
+        "inverter_files_used": 11,
+        "inverter_metric_unit_label": "kWh (raw label, but represents average kW per interval)",
+        "sum_of_all_11_inverters_max_kw": 234.09,
+        "inverter_capacity_discrepancy": "Inverters 01, 02, 07, 08 have individual peaks of 7-9 kW. Inverters 03, 05 peak around 14.6 kW. Inverters 04, 09, 10, 11 peak around 43.8 kW. Summing all 11 files yields a peak of 234 kW, which exceeds the stated 110 kW DC rating by 112%.",
+        "potential_causes": [
+          "Double-counting: inverters 04, 09, 10, 11 may be sub-combiners aggregating strings 01-08.",
+          "Plant capacity upgrade after original 2016 registration not reflected in static metadata.",
+          "Inverter metrics 04, 09, 10, 11 representing multi-string combiner power rather than individual strings."
+        ],
+        "recommendation": "Use capacity-normalized metrics against actual observed peak (234 kW) or isolate non-overlapping string inverters to prevent overestimation."
+      }
+    },
+    "section_3_prediction_evaluation": {
+      "status": "VERIFIED",
+      "recalculated_metrics": {
+        "test_records": 7985,
+        "dev_records": 31936,
+        "linear_regression": {
+          "R2": -0.2001,
+          "MAE_kW": 46.69,
+          "RMSE_kW": 74.54,
+          "nMAE_percent": 42.44,
+          "nRMSE_percent": 67.77
+        },
+        "random_forest_tuned": {
+          "R2": 0.8571,
+          "MAE_kW": 12.42,
+          "RMSE_kW": 25.72,
+          "nMAE_percent": 11.29,
+          "nRMSE_percent": 23.39
+        },
+        "xgboost_tuned": {
+          "R2": 0.8658,
+          "MAE_kW": 12.84,
+          "RMSE_kW": 24.92,
+          "nMAE_percent": 11.68,
+          "nRMSE_percent": 22.66
+        },
+        "hybrid_stacking": {
+          "R2": 0.8649,
+          "MAE_kW": 12.29,
+          "RMSE_kW": 25.01,
+          "nMAE_percent": 11.18,
+          "nRMSE_percent": 22.74
+        },
+        "persistence_1hour": {
+          "R2": 0.7528,
+          "MAE_kW": 19.08,
+          "RMSE_kW": 33.83,
+          "nMAE_percent": 17.35,
+          "nRMSE_percent": 30.75
+        },
+        "persistence_24hour_diurnal": {
+          "R2": -0.7219,
+          "MAE_kW": 58.59,
+          "RMSE_kW": 89.29,
+          "nMAE_percent": 53.26,
+          "nRMSE_percent": 81.17
+        }
+      },
+      "observations": {
+        "negative_lr_r2_cause": "Linear Regression cannot capture the non-linear inverter clipping ceiling and seasonal panel degradation, resulting in massive overprediction in 2022-2023.",
+        "model_selection": "XGBoost achieves highest R2 (0.8658) and lowest RMSE (24.92 kW). Stacking achieves lowest MAE (12.29 kW). Stacking complexity is not justified by the 0.55 kW MAE difference; standalone XGBoost is recommended."
+      }
+    },
+    "section_4_anomaly_calibration": {
+      "status": "VERIFIED_WITH_METHODOLOGY_JUSTIFIED",
+      "calibration_details": {
+        "contamination_rate": 0.0283,
+        "contamination_basis": "Empirical physical rule violation rate on development split (2.83% sensor stuck readings during daylight)",
+        "daylight_residual_median_kw": 3.80,
+        "daylight_robust_mad_kw": 17.08,
+        "daylight_robust_sigma_kw": 25.33,
+        "calibrated_threshold_kw": 63.33,
+        "threshold_percentage_of_capacity": 57.6,
+        "ground_truth_status": "UNVERIFIED_ABSENT_SOURCE_LOGS",
+        "ground_truth_disclaimer": "NREL PVDAQ System 2105 lacks maintenance work order logs. Alarms represent physical/statistical anomalies, not verified hardware failures."
+      }
+    },
+    "section_5_output_counts": {
+      "status": "VERIFIED_100_PERCENT_REPRODUCED",
+      "reproduced_counts": {
+        "NORMAL": {"count": 5771, "percentage": 72.27},
+        "ENVIRONMENTAL_NOVELTY": {"count": 1731, "percentage": 21.68},
+        "SUSPICIOUS_UNDERPERFORMANCE": {"count": 247, "percentage": 3.09},
+        "DATA_QUALITY_ANOMALY": {"count": 236, "percentage": 2.96},
+        "CRITICAL_OUTAGE": {"count": 0, "percentage": 0.00}
+      },
+      "total_rows": 7985,
+      "category_overlap": false,
+      "sum_matches_test_set": true
+    }
+  }
+}
+

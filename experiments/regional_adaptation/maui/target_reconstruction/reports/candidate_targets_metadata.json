@@ -1,0 +1,114 @@
+[
+    {
+        "candidate_id": "Candidate_1",
+        "name": "Naive 11-Channel Sum",
+        "column": "target_naive_11",
+        "channels_included": [
+            "inv_01",
+            "inv_02",
+            "inv_03",
+            "inv_04",
+            "inv_05",
+            "inv_06",
+            "inv_07",
+            "inv_08",
+            "inv_09",
+            "inv_10",
+            "inv_11"
+        ],
+        "channels_excluded": [],
+        "hypothesis": "Pre-audit baseline. Sums all 11 raw files indiscriminately.",
+        "plausibility": "FLAWED. Double-counts inv_04/inv_11 (+44.1 kW duplicate).",
+        "peak_15m_kW": 234.91299966666665,
+        "mean_15m_kW": 54.03029825951024,
+        "peak_hourly_kW": 234.085396,
+        "mean_hourly_kW": 53.13005517735487
+    },
+    {
+        "candidate_id": "Candidate_2",
+        "name": "De-duplicated Full Array (9 Distinct Channels)",
+        "column": "target_dedup_9",
+        "channels_included": [
+            "inv_01",
+            "inv_02",
+            "inv_03",
+            "inv_04",
+            "inv_05",
+            "inv_07",
+            "inv_08",
+            "inv_09",
+            "inv_10"
+        ],
+        "channels_excluded": [
+            "inv_06 (idle 0.13 kW)",
+            "inv_11 (identical clone of inv_04)"
+        ],
+        "hypothesis": "Full site generation assuming all 9 distinct channels are separate physical arrays (site expansion to ~220 kW DC).",
+        "plausibility": "PLAUSIBLE IF SITE EXPANDED. Consistent with OEDI documentation citing 110-237 kW class group.",
+        "peak_15m_kW": 191.31733333333332,
+        "mean_15m_kW": 44.505194593527435,
+        "peak_hourly_kW": 190.5040833333333,
+        "mean_hourly_kW": 43.60957223143621
+    },
+    {
+        "candidate_id": "Candidate_3",
+        "name": "Triple Combiner Group (inv_04 + inv_09 + inv_10)",
+        "column": "target_combiners_3",
+        "channels_included": [
+            "inv_04",
+            "inv_09",
+            "inv_10"
+        ],
+        "channels_excluded": [
+            "inv_01..inv_03, inv_05..inv_08 (assumed sub-strings)",
+            "inv_11 (clone)"
+        ],
+        "hypothesis": "Channels 04, 09, 10 represent three ~44 kW commercial main building inverters (~130 kW AC peak, ~150 kW DC).",
+        "plausibility": "MODERATELY PLAUSIBLE. Exceeds 110 kW DC by 18%, but plausible for a 130 kW AC plant.",
+        "peak_15m_kW": 130.15966666666665,
+        "mean_15m_kW": 44.21314505308282,
+        "peak_hourly_kW": 129.31216666666666,
+        "mean_hourly_kW": 29.187833908174863
+    },
+    {
+        "candidate_id": "Candidate_4",
+        "name": "String Inverter Sub-Array (6 Channels)",
+        "column": "target_strings_6",
+        "channels_included": [
+            "inv_01",
+            "inv_02",
+            "inv_03",
+            "inv_05",
+            "inv_07",
+            "inv_08"
+        ],
+        "channels_excluded": [
+            "inv_04, 09, 10, 11 (large units)",
+            "inv_06 (idle)"
+        ],
+        "hypothesis": "Only small string inverters (7-15 kW) are genuine array inverters. Covers ~63 kW AC peak (~75 kW DC), leaving ~35 kW unmonitored.",
+        "plausibility": "PLAUSIBLE FOR MONITORED SUB-ARRAY. Under-represents 110 kW DC total capacity.",
+        "peak_15m_kW": 62.374333333333325,
+        "mean_15m_kW": 14.90842872516961,
+        "peak_hourly_kW": 62.087500000000006,
+        "mean_hourly_kW": 14.42272585336277
+    },
+    {
+        "candidate_id": "Candidate_5",
+        "name": "Primary Twin Combiners (inv_04 + inv_10)",
+        "column": "target_pair_04_10",
+        "channels_included": [
+            "inv_04",
+            "inv_10"
+        ],
+        "channels_excluded": [
+            "inv_01..03, 05..08, 09, 11"
+        ],
+        "hypothesis": "Two ~44 kW inverters summing to 88 kW AC peak. Corresponds to exact 1.25 DC/AC loading ratio on 110.0 kW DC nameplate (110 / 1.25 = 88 kW).",
+        "plausibility": "HIGHLY PLAUSIBLE FOR 110 kW DC. Exactly reconciles AC output with static 110 kW DC metadata.",
+        "peak_15m_kW": 87.454,
+        "mean_15m_kW": 30.67816723914598,
+        "peak_hourly_kW": 86.85074999999999,
+        "mean_hourly_kW": 20.084929215236972
+    }
+]

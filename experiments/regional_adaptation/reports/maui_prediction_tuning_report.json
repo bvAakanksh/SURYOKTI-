@@ -1,0 +1,103 @@
+{
+    "site": "Maui Ocean Center (System 2105)",
+    "rated_capacity_kw": 110.0,
+    "features": [
+        "GHI",
+        "DNI",
+        "Temperature",
+        "Wind_Speed",
+        "Hour",
+        "Day",
+        "Month",
+        "SZ_Angle",
+        "SA_Angle",
+        "Hour_sin",
+        "Hour_cos",
+        "Month_sin",
+        "Month_cos",
+        "Effective_GHI",
+        "Thermal_Stress"
+    ],
+    "target": "AC_Output",
+    "best_model": "XGBoost (Tuned)",
+    "model_comparison": {
+        "Linear Regression (Baseline)": {
+            "MAE_kW": 46.68601224884416,
+            "RMSE_kW": 74.54409267788081,
+            "R2_Score": -0.20012220091037713,
+            "nMAE_percent": 42.44182931713105,
+            "nRMSE_percent": 67.76735697989164,
+            "CV_R2_Mean": 0.8179180514898649,
+            "CV_R2_Std": 0.12642410707550594
+        },
+        "Random Forest (Tuned)": {
+            "MAE_kW": 12.420825154743689,
+            "RMSE_kW": 25.724737142587365,
+            "R2_Score": 0.8570774042293852,
+            "nMAE_percent": 11.291659231585172,
+            "nRMSE_percent": 23.386124675079422,
+            "CV_R2_Mean": 0.7523862645832715,
+            "CV_R2_Std": 0.24795218374568287
+        },
+        "XGBoost (Tuned)": {
+            "MAE_kW": 12.843386052981394,
+            "RMSE_kW": 24.924456896569616,
+            "R2_Score": 0.8658315472911842,
+            "nMAE_percent": 11.675805502710359,
+            "nRMSE_percent": 22.65859717869965,
+            "CV_R2_Mean": 0.702258568843868,
+            "CV_R2_Std": 0.3349747301899805
+        },
+        "Hybrid Stacking (RF + XGB -> RidgeCV)": {
+            "MAE_kW": 12.294476471012533,
+            "RMSE_kW": 25.012884339564327,
+            "R2_Score": 0.8648778479413439,
+            "nMAE_percent": 11.176796791829576,
+            "nRMSE_percent": 22.738985763240297,
+            "CV_R2_Mean": 0.6980799236651503,
+            "CV_R2_Std": 0.32762761830243453
+        }
+    },
+    "segmented_evaluation": {
+        "Daytime (GHI > 10 W/m\u00b2)": {
+            "Count": 4483,
+            "MAE_kW": 21.302421191226244,
+            "RMSE_kW": 32.11192296484908,
+            "R2_Score": 0.7818584335541968,
+            "nMAE_percent": 19.365837446569316,
+            "nRMSE_percent": 29.19265724077189
+        },
+        "Nighttime (GHI <= 10 W/m\u00b2)": {
+            "Count": 3502,
+            "MAE_kW": 2.014758261790165,
+            "RMSE_kW": 9.82063273597043,
+            "R2_Score": -0.5778780320543724,
+            "nMAE_percent": 1.8315984198092412,
+            "nRMSE_percent": 8.927847941791299
+        },
+        "Low Irradiance (10 < GHI <= 300)": {
+            "Count": 1232,
+            "MAE_kW": 22.40318090068233,
+            "RMSE_kW": 37.17024639528523,
+            "R2_Score": 0.67273357988242,
+            "nMAE_percent": 20.36652809152939,
+            "nRMSE_percent": 33.791133086622935
+        },
+        "Medium Irradiance (300 < GHI <= 600)": {
+            "Count": 1235,
+            "MAE_kW": 19.273085890019384,
+            "RMSE_kW": 30.59971069247749,
+            "R2_Score": 0.8395619164290488,
+            "nMAE_percent": 17.520987172744896,
+            "nRMSE_percent": 27.817918811343173
+        },
+        "High Irradiance (GHI > 600)": {
+            "Count": 2016,
+            "MAE_kW": 21.872903897049945,
+            "RMSE_kW": 29.582182522878636,
+            "R2_Score": 0.7797719773493468,
+            "nMAE_percent": 19.884458088227223,
+            "nRMSE_percent": 26.89289320261694
+        }
+    }
+}

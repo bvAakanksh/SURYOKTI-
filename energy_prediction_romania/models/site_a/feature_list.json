@@ -1,0 +1,20 @@
+{
+    "feature_columns": [
+        "temp_c",
+        "humidity_pct",
+        "cloud_cover_pct",
+        "wind_speed_kmh",
+        "ghi_wm2",
+        "dni_wm2",
+        "dhi_wm2",
+        "precip_mm",
+        "solar_elevation_deg",
+        "solar_azimuth_deg",
+        "hour_sin",
+        "hour_cos",
+        "day_of_year_sin",
+        "day_of_year_cos",
+        "month_sin",
+        "month_cos"
+    ]
+}

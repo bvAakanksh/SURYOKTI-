@@ -1,0 +1,50 @@
+{
+  "project": "SURYOKTI Vision Fault Detection",
+  "external_dataset_path": "C:\\VITB\\suryokti vision",
+  "num_classes": 6,
+  "classes": [
+    {
+      "id": 0,
+      "name": "Clean",
+      "severity_score": 0.0,
+      "maintenance_action": "NO_ACTION",
+      "description": "Clean PV panel surface with nominal optical transmission."
+    },
+    {
+      "id": 1,
+      "name": "Dusty",
+      "severity_score": 0.4,
+      "maintenance_action": "SCHEDULE_CLEANING",
+      "description": "Uniform atmospheric particulate accumulation causing linear soiling loss."
+    },
+    {
+      "id": 2,
+      "name": "Bird-drop",
+      "severity_score": 0.7,
+      "maintenance_action": "TARGETED_SPOT_WASH",
+      "description": "Localized opaque spot causing severe shading and reverse-bias hotspot risk."
+    },
+    {
+      "id": 3,
+      "name": "Electrical-damage",
+      "severity_score": 0.9,
+      "maintenance_action": "ELECTRICAL_INSPECTION",
+      "description": "Bypass diode failure, busbar burn, or localized cell discoloration."
+    },
+    {
+      "id": 4,
+      "name": "Physical-Damage",
+      "severity_score": 1.0,
+      "maintenance_action": "REPLACE_MODULE",
+      "description": "Shattered front glass, micro-cracks, or severe structural distortion."
+    },
+    {
+      "id": 5,
+      "name": "Snow-Covered",
+      "severity_score": 0.6,
+      "maintenance_action": "MONITOR_OR_CLEAR",
+      "description": "Surface snow occlusion obstructing solar irradiance."
+    }
+  ]
+}
+

@@ -1,0 +1,44 @@
+{
+    "candidate_id": "Candidate_2",
+    "telemetry_file": "candidate_2_hourly.csv",
+    "peak_capacity_kW": 190.5040833333333,
+    "ground_truth_status": "UNLABELED / NO MAINTENANCE GROUND TRUTH",
+    "ground_truth_disclaimer": "NREL PVDAQ System 2105 telemetry lacks operator maintenance logs, work orders, or labeled fault logs. True physical Precision, Recall, False Alarm Rate, and fault-detection accuracy CANNOT be calculated. All alarms represent unconfirmed statistical deviations or heuristic rule flags.",
+    "environmental_novelty_definition": "Environmental novelty is defined as multivariate out-of-distribution density identified by Isolation Forest across (GHI, Temperature, Wind_Speed, Effective_GHI). Disagreements between detectors represent statistical feature novelty, NOT independently validated severe meteorological events.",
+    "statistical_residual_vs_physical_fault": "Statistical residual exceedances mark timestamps where actual output falls >2.5 sigma below the XGBoost expectation. While consistent with operational degradation, soiling, grid curtailment, or sub-string trips, they remain unconfirmed without field verification.",
+    "calibration_parameters": {
+        "dev_records": 31043,
+        "empirical_contamination_pct": 1.0,
+        "daylight_records_calibrated": 15375,
+        "daylight_median_residual_kW": -1.5575495402018191,
+        "daylight_MAD_kW": 10.421501586914076,
+        "daylight_robust_sigma_kW": 15.450918252758807,
+        "daylight_residual_threshold_kW": 37.0697460916952
+    },
+    "test_evaluation": {
+        "test_records": 7761,
+        "test_date_start": "2022-09-18 00:00:00",
+        "test_date_end": "2023-11-08 11:00:00",
+        "raw_detector_triggers": {
+            "environmental_outliers": 0,
+            "sensor_data_quality_errors": 0,
+            "potential_operational_anomalies": 347,
+            "isolation_forest_triggers": 204,
+            "statistical_residual_exceedances": 472
+        },
+        "reconciled_mutually_exclusive_classification": {
+            "Normal Generation": {
+                "count": 6970,
+                "percentage": 89.80801443113002
+            },
+            "Statistical Residual Exceedance": {
+                "count": 444,
+                "percentage": 5.7209122535755705
+            },
+            "Potential Operational Anomaly": {
+                "count": 347,
+                "percentage": 4.47107331529442
+            }
+        }
+    }
+}

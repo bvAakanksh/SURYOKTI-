@@ -1,0 +1,43 @@
+{
+    "site": "Site A",
+    "model_architecture": "StackingRegressor (Random Forest + XGBoost -> MLPRegressor)",
+    "split_info": {
+        "total_rows": 12771,
+        "train_rows": 8939,
+        "val_rows": 1277,
+        "test_rows": 2555,
+        "train_date_range": [
+            "2025-01-03 22:00:00+00:00",
+            "2026-01-19 06:00:00+00:00"
+        ],
+        "val_date_range": [
+            "2026-01-19 07:00:00+00:00",
+            "2026-03-13 11:00:00+00:00"
+        ],
+        "test_date_range": [
+            "2026-03-13 12:00:00+00:00",
+            "2026-06-30 20:00:00+00:00"
+        ]
+    },
+    "feature_count": 16,
+    "validation_metrics": {
+        "val_r2": 0.8043,
+        "val_mae_cf": 0.04414,
+        "val_rmse_cf": 0.11037,
+        "val_mae_kw": 2.207,
+        "val_rmse_kw": 5.519,
+        "val_nrmse_rated_pct": 11.037,
+        "val_nrmse_mean_pct": 91.95,
+        "val_sample_count": 1277
+    },
+    "test_metrics": {
+        "test_r2": 0.9157,
+        "test_mae_cf": 0.04582,
+        "test_rmse_cf": 0.09466,
+        "test_mae_kw": 2.291,
+        "test_rmse_kw": 4.733,
+        "test_nrmse_rated_pct": 9.466,
+        "test_nrmse_mean_pct": 38.403,
+        "test_sample_count": 2555
+    }
+}

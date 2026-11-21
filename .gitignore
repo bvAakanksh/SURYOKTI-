@@ -1,0 +1,59 @@
+# Python environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.coverage
+
+# Local editor and operating-system state
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Generated runtime artefacts
+*.log
+**/logs/
+**/results/predictions/
+**/results/synthetic_fault_validation/
+**/results/anomaly_detection/
+anomaly_detection/results/
+energy_prediction_romania/results/
+energy_prediction_adaptive/results/
+**/plots/**/*.png
+**/plots/**/*.pdf
+
+# Large, duplicate, or external source material retained locally only
+Not Nec/
+archive/bundles/
+PV-Generation-Dataset-main/
+Presentation/
+EP - full code.txt
+Data Dictionary/
+License and Provenance Note/
+Merge Preprocessing Code/
+Original Kaggle Source Files/
+README/
+Solar Weather Processed Data/
+Prediction.py
+Preprocessing.py
+Solar_Weather_Data_Cleaned.csv
+data_cleaning.py
+plots.py
+train_test.py
+Original Kaggle Source Files/
+datasets/**/raw/
+datasets/**/external_sources/
+datasets/*
+!datasets/README.md
+!datasets/data_dictionary.csv
+energy_prediction_romania/datasets/
+experiments/**/data/
+experiments/**/plots/
+experiments/**/models/
+
+# Re-trainable binary artefacts; publish model provenance instead
+*.joblib
+*.pkl
+*.suryokti

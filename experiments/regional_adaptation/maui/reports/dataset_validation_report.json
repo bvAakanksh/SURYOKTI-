@@ -1,0 +1,27 @@
+{
+    "dataset_name": "solar_combined.csv",
+    "rows": 171648,
+    "columns": [
+        "measured_on",
+        "irradiance_ghi_o_150230",
+        "irradiance_dni__155350",
+        "meter_ac_output_(kwatts)_meter_150161",
+        "ambient_temp_(c)_o_150228",
+        "wind_speed_10m_(mph)_o_150229"
+    ],
+    "missing_values": {
+        "measured_on": 0,
+        "irradiance_ghi_o_150230": 0,
+        "irradiance_dni__155350": 0,
+        "meter_ac_output_(kwatts)_meter_150161": 0,
+        "ambient_temp_(c)_o_150228": 0,
+        "wind_speed_10m_(mph)_o_150229": 0
+    },
+    "ac_output_col": "meter_ac_output_(kwatts)_meter_150161",
+    "ac_output_is_duplicate_of_wind_speed": true,
+    "ac_wind_max_difference": 0.0,
+    "correlation_ghi_to_meter_ac": -0.051771197046677646,
+    "target_column_diagnosis": "CRITICAL BUG: Column 'meter_ac_output_(kwatts)_meter_150161' is a byte-for-byte duplicate of 'wind_speed_10m_(mph)_o_150229' (diff=0.0, corr=-0.05 with GHI). It does NOT contain actual AC electrical generation.",
+    "timestamp_diagnosis": "Timestamp 'measured_on' in solar_combined.csv is in UTC. Solar irradiance peaks at 01:00 UTC (which corresponds to afternoon in Hawaii). Inverters are logged in HST.",
+    "solution": "Reconstruct true AC generation by aggregating raw inverter files (2105_inv01 through 2105_inv11) and align weather channels to Hawaii local time."
+}

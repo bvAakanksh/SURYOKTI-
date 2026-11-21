@@ -1,0 +1,693 @@
+{
+    "title": "SURYOKTI Regional Adaptation: Maui Plant Target Reconstruction & Technical Audit",
+    "target_facility": {
+        "name": "Maui Ocean Center",
+        "system_id": 2105,
+        "location": "Maui, Hawaii (20.79253 N, -156.51200 W)",
+        "registered_capacity_kW_DC": 110.0,
+        "modules": "SunPower SPR-X22-360 (360 W mono-Si, ~306 modules)",
+        "data_range": "2018-12-15 to 2023-11-15 (4.92 years)"
+    },
+    "verdict_status": "PLANT OUTPUT RECONSTRUCTION: UNVERIFIED",
+    "verdict_reasoning": "NREL PVDAQ metadata confirms 110.0 kW DC nameplate capacity but does NOT publish internal electrical single-line diagrams (SLDs), combiner box schedules, or physical plant expansion records. While duplicate channel logging (inv_04 and inv_11) and idle sensor channels (inv_06) are mathematically and empirically proven, definitive assignment between an unrecorded plant expansion (~190 kW AC / ~220 kW DC) and an inverter-loading ratio pair (~87 kW AC / 110 kW DC) cannot be verified without site electrical drawings.",
+    "key_findings": {
+        "confirmed_duplicate": "inv_04 and inv_11 are 100.0% identical in power (corr=0.999998) and 99.99% identical in DC voltage. Counting both inflated the baseline by +44.11 kW.",
+        "idle_sensor": "inv_06 is offline/disconnected (constant 0.13 kW baseline, uncorrelated with sunlight).",
+        "sensor_wiring_defect": "inv_07 DC voltage channel records AC grid voltage (122.9 V) instead of DC string voltage (560 V).",
+        "flawed_baseline": "Candidate 1 (Naive 11-channel sum, peak 234.09 kW) is physically impossible for a 110 kW DC plant (>212% solar efficiency).",
+        "primary_defensible_candidate_expansion": "Candidate 2 (De-duplicated 9-channel array, peak 190.50 kW, XGBoost R2=0.8637, nMAE=6.09%) reflects full non-duplicated site output under an expansion hypothesis.",
+        "primary_defensible_candidate_nameplate": "Candidate 5 (Twin Combiners inv04+10, peak 86.85 kW, XGBoost R2=0.8171, nMAE=6.20%) reconciles with 110.0 kW DC at a standard 1.25 DC/AC loading ratio."
+    },
+    "channel_profiles": [
+        {
+            "channel": "inv01",
+            "file": "2105_inv01_data.csv",
+            "metric_name": "inv_string01_ac_output_(kwh)_inv_150164",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2018-12-29 06:45:00",
+            "end_time": "2023-11-15 00:00:00",
+            "total_records": 318225,
+            "missing_power_records": 0,
+            "sampling_interval_median": "5.0 min",
+            "power_min_kW": 0.0,
+            "power_max_kW": 7.169,
+            "power_mean_kW": 1.9703281514651583,
+            "power_median_kW": 1.533,
+            "power_p95_kW": 5.323,
+            "power_p99_kW": 5.961,
+            "dc_voltage_max_V": 566.312,
+            "dc_voltage_mean_V": 327.67023256817254,
+            "ac_voltage_max_V": 127.938,
+            "ac_voltage_mean_V": 123.07241764397307,
+            "temp_max_C": 55.2715,
+            "temp_mean_C": 40.64560695139273,
+            "hardware_category": "Small String Inverter (~7-9 kW)"
+        },
+        {
+            "channel": "inv02",
+            "file": "2105_inv02_data.csv",
+            "metric_name": "inv_string02_ac_output_(kwh)_inv_150170",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2019-03-25 09:29:59",
+            "end_time": "2023-11-15 10:56:32",
+            "total_records": 414444,
+            "missing_power_records": 0,
+            "sampling_interval_median": "5.0 min",
+            "power_min_kW": 0.0,
+            "power_max_kW": 9.399,
+            "power_mean_kW": 2.24928088716449,
+            "power_median_kW": 0.161,
+            "power_p95_kW": 8.176,
+            "power_p99_kW": 9.012,
+            "dc_voltage_max_V": 560.75,
+            "dc_voltage_mean_V": 271.46309516823055,
+            "ac_voltage_max_V": 128.734,
+            "ac_voltage_mean_V": 123.81076859841137,
+            "temp_max_C": 60.0652,
+            "temp_mean_C": 41.97462583823147,
+            "hardware_category": "Small String Inverter (~7-9 kW)"
+        },
+        {
+            "channel": "inv03",
+            "file": "2105_inv03_data.csv",
+            "metric_name": "inv_string03_ac_output_(kwh)_inv_150176",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2019-03-21 13:21:42",
+            "end_time": "2023-11-15 10:56:32",
+            "total_records": 251002,
+            "missing_power_records": 0,
+            "sampling_interval_median": "5.0 min",
+            "power_min_kW": 0.0,
+            "power_max_kW": 14.93,
+            "power_mean_kW": 6.309285380196174,
+            "power_median_kW": 5.817,
+            "power_p95_kW": 14.359,
+            "power_p99_kW": 14.456,
+            "dc_voltage_max_V": 565.438,
+            "dc_voltage_mean_V": 410.15031134079516,
+            "ac_voltage_max_V": 128.281,
+            "ac_voltage_mean_V": 123.03377126875482,
+            "temp_max_C": 78.2166,
+            "temp_mean_C": 50.604550817921776,
+            "hardware_category": "Medium String Inverter (~15 kW)"
+        },
+        {
+            "channel": "inv04",
+            "file": "2105_inv04_data.csv",
+            "metric_name": "inv_string04_ac_output_(kwh)_inv_150182",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2019-04-02 06:49:00",
+            "end_time": "2023-11-15 11:03:00",
+            "total_records": 310999,
+            "missing_power_records": 74093,
+            "sampling_interval_median": "5.0 min",
+            "power_min_kW": 0.001,
+            "power_max_kW": 44.108,
+            "power_mean_kW": 18.97301246908056,
+            "power_median_kW": 17.078,
+            "power_p95_kW": 43.081,
+            "power_p99_kW": 43.437,
+            "dc_voltage_max_V": 563.625,
+            "dc_voltage_mean_V": 267.76127234625204,
+            "ac_voltage_max_V": 128.891,
+            "ac_voltage_mean_V": 123.37714435462608,
+            "temp_max_C": 88.7046,
+            "temp_mean_C": 52.78824558342631,
+            "hardware_category": "Large Commercial Inverter / Combiner (~44 kW)"
+        },
+        {
+            "channel": "inv05",
+            "file": "2105_inv05_data.csv",
+            "metric_name": "inv_string05_ac_output_(kwh)_inv_150188",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2018-12-28 11:37:09",
+            "end_time": "2023-11-15 11:03:28",
+            "total_records": 283021,
+            "missing_power_records": 0,
+            "sampling_interval_median": "5.0 min",
+            "power_min_kW": 0.0,
+            "power_max_kW": 14.857,
+            "power_mean_kW": 5.812179149250409,
+            "power_median_kW": 4.497,
+            "power_p95_kW": 14.361,
+            "power_p99_kW": 14.501,
+            "dc_voltage_max_V": 564.125,
+            "dc_voltage_mean_V": 404.3417815378114,
+            "ac_voltage_max_V": 128.172,
+            "ac_voltage_mean_V": 123.37675644344411,
+            "temp_max_C": 75.76789999999998,
+            "temp_mean_C": 51.873168847894675,
+            "hardware_category": "Medium String Inverter (~15 kW)"
+        },
+        {
+            "channel": "inv06",
+            "file": "2105_inv06_data.csv",
+            "metric_name": "inv_string06_ac_output_(kwh)_inv_150194",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2019-08-16 15:40:07",
+            "end_time": "2023-11-12 06:43:33",
+            "total_records": 218544,
+            "missing_power_records": 1,
+            "sampling_interval_median": "5.0 min",
+            "power_min_kW": 0.00698438,
+            "power_max_kW": 0.128172,
+            "power_mean_kW": 0.12340464818539143,
+            "power_median_kW": 0.1235,
+            "power_p95_kW": 0.1248279999999999,
+            "power_p99_kW": 0.125641,
+            "dc_voltage_max_V": 563.875,
+            "dc_voltage_mean_V": 399.9231787883554,
+            "ac_voltage_max_V": 128.172,
+            "ac_voltage_mean_V": 123.40464897860386,
+            "temp_max_C": 76.429,
+            "temp_mean_C": 51.39399754374405,
+            "hardware_category": "Idle / Faulted / Near-Zero Channel"
+        },
+        {
+            "channel": "inv07",
+            "file": "2105_inv07_data.csv",
+            "metric_name": "inv_string07_ac_output_(kwh)_inv_150200",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2018-12-28 22:14:00",
+            "end_time": "2023-11-15 09:35:00",
+            "total_records": 154237,
+            "missing_power_records": 0,
+            "sampling_interval_median": "15.0 min",
+            "power_min_kW": 0.0,
+            "power_max_kW": 9.434,
+            "power_mean_kW": 2.450189312551463,
+            "power_median_kW": 0.182,
+            "power_p95_kW": 8.993,
+            "power_p99_kW": 9.02,
+            "dc_voltage_max_V": 128.25,
+            "dc_voltage_mean_V": 122.9149180977111,
+            "ac_voltage_max_V": 128.25,
+            "ac_voltage_mean_V": 122.9149180977111,
+            "temp_max_C": 90.0,
+            "temp_mean_C": 38.66147311734539,
+            "hardware_category": "Small String Inverter (~7-9 kW)"
+        },
+        {
+            "channel": "inv08",
+            "file": "2105_inv08_data.csv",
+            "metric_name": "inv_string08_ac_output_(kwh)_inv_150206",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2018-12-28 13:49:59",
+            "end_time": "2023-11-15 11:56:38",
+            "total_records": 430883,
+            "missing_power_records": 0,
+            "sampling_interval_median": "5.0 min",
+            "power_min_kW": 0.0,
+            "power_max_kW": 9.441,
+            "power_mean_kW": 2.3497708403441306,
+            "power_median_kW": 0.2399999999999999,
+            "power_p95_kW": 8.865,
+            "power_p99_kW": 8.997999999999998,
+            "dc_voltage_max_V": 560.938,
+            "dc_voltage_mean_V": 265.15690880158905,
+            "ac_voltage_max_V": 128.391,
+            "ac_voltage_mean_V": 123.02262149585849,
+            "temp_max_C": 73.1033,
+            "temp_mean_C": 39.694009890155804,
+            "hardware_category": "Small String Inverter (~7-9 kW)"
+        },
+        {
+            "channel": "inv09",
+            "file": "2105_inv09_data.csv",
+            "metric_name": "inv_string09_ac_output_(kwh)_inv_150212",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2019-06-21 08:41:48",
+            "end_time": "2023-11-15 12:11:49",
+            "total_records": 248960,
+            "missing_power_records": 0,
+            "sampling_interval_median": "5.0 min",
+            "power_min_kW": 0.0,
+            "power_max_kW": 43.743,
+            "power_mean_kW": 17.541967986825192,
+            "power_median_kW": 15.012,
+            "power_p95_kW": 41.877,
+            "power_p99_kW": 42.508,
+            "dc_voltage_max_V": 562.5,
+            "dc_voltage_mean_V": 383.98166156667713,
+            "ac_voltage_max_V": 127.281,
+            "ac_voltage_mean_V": 122.97428078406169,
+            "temp_max_C": 89.4778,
+            "temp_mean_C": 50.86151870822623,
+            "hardware_category": "Large Commercial Inverter / Combiner (~44 kW)"
+        },
+        {
+            "channel": "inv10",
+            "file": "2105_inv10_data.csv",
+            "metric_name": "inv_string10_ac_output_(kwh)_inv_150218",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2019-04-05 09:50:00",
+            "end_time": "2023-11-15 12:16:49",
+            "total_records": 306150,
+            "missing_power_records": 0,
+            "sampling_interval_median": "5.0 min",
+            "power_min_kW": 0.0,
+            "power_max_kW": 44.33,
+            "power_mean_kW": 16.567461195492402,
+            "power_median_kW": 12.486,
+            "power_p95_kW": 43.067,
+            "power_p99_kW": 43.379,
+            "dc_voltage_max_V": 562.812,
+            "dc_voltage_mean_V": 327.7947902858067,
+            "ac_voltage_max_V": 128.312,
+            "ac_voltage_mean_V": 123.14658208394579,
+            "temp_max_C": 81.3695,
+            "temp_mean_C": 48.76127286362894,
+            "hardware_category": "Large Commercial Inverter / Combiner (~44 kW)"
+        },
+        {
+            "channel": "inv11",
+            "file": "2105_inv11_data.csv",
+            "metric_name": "inv_string11_ac_output_(kwh)_inv_150224",
+            "raw_units_in_header": "kWh (actually instantaneous/interval kW)",
+            "start_time": "2019-04-02 06:49:59",
+            "end_time": "2023-11-15 11:03:39",
+            "total_records": 311040,
+            "missing_power_records": 0,
+            "sampling_interval_median": "5.0 min",
+            "power_min_kW": 0.0,
+            "power_max_kW": 44.108,
+            "power_mean_kW": 14.452709953703703,
+            "power_median_kW": 10.17,
+            "power_p95_kW": 42.857,
+            "power_p99_kW": 43.39,
+            "dc_voltage_max_V": 563.625,
+            "dc_voltage_mean_V": 267.46086396242947,
+            "ac_voltage_max_V": 128.891,
+            "ac_voltage_mean_V": 123.37681164801957,
+            "temp_max_C": 88.7046,
+            "temp_mean_C": 52.78765163515946,
+            "hardware_category": "Large Commercial Inverter / Combiner (~44 kW)"
+        }
+    ],
+    "candidate_targets": [
+        {
+            "candidate_id": "Candidate_1",
+            "name": "Naive 11-Channel Sum",
+            "column": "target_naive_11",
+            "channels_included": [
+                "inv_01",
+                "inv_02",
+                "inv_03",
+                "inv_04",
+                "inv_05",
+                "inv_06",
+                "inv_07",
+                "inv_08",
+                "inv_09",
+                "inv_10",
+                "inv_11"
+            ],
+            "channels_excluded": [],
+            "hypothesis": "Pre-audit baseline. Sums all 11 raw files indiscriminately.",
+            "plausibility": "FLAWED. Double-counts inv_04/inv_11 (+44.1 kW duplicate).",
+            "peak_15m_kW": 234.91299966666665,
+            "mean_15m_kW": 54.03029825951024,
+            "peak_hourly_kW": 234.085396,
+            "mean_hourly_kW": 53.13005517735487
+        },
+        {
+            "candidate_id": "Candidate_2",
+            "name": "De-duplicated Full Array (9 Distinct Channels)",
+            "column": "target_dedup_9",
+            "channels_included": [
+                "inv_01",
+                "inv_02",
+                "inv_03",
+                "inv_04",
+                "inv_05",
+                "inv_07",
+                "inv_08",
+                "inv_09",
+                "inv_10"
+            ],
+            "channels_excluded": [
+                "inv_06 (idle 0.13 kW)",
+                "inv_11 (identical clone of inv_04)"
+            ],
+            "hypothesis": "Full site generation assuming all 9 distinct channels are separate physical arrays (site expansion to ~220 kW DC).",
+            "plausibility": "PLAUSIBLE IF SITE EXPANDED. Consistent with OEDI documentation citing 110-237 kW class group.",
+            "peak_15m_kW": 191.31733333333332,
+            "mean_15m_kW": 44.505194593527435,
+            "peak_hourly_kW": 190.5040833333333,
+            "mean_hourly_kW": 43.60957223143621
+        },
+        {
+            "candidate_id": "Candidate_3",
+            "name": "Triple Combiner Group (inv_04 + inv_09 + inv_10)",
+            "column": "target_combiners_3",
+            "channels_included": [
+                "inv_04",
+                "inv_09",
+                "inv_10"
+            ],
+            "channels_excluded": [
+                "inv_01..inv_03, inv_05..inv_08 (assumed sub-strings)",
+                "inv_11 (clone)"
+            ],
+            "hypothesis": "Channels 04, 09, 10 represent three ~44 kW commercial main building inverters (~130 kW AC peak, ~150 kW DC).",
+            "plausibility": "MODERATELY PLAUSIBLE. Exceeds 110 kW DC by 18%, but plausible for a 130 kW AC plant.",
+            "peak_15m_kW": 130.15966666666665,
+            "mean_15m_kW": 44.21314505308282,
+            "peak_hourly_kW": 129.31216666666666,
+            "mean_hourly_kW": 29.187833908174863
+        },
+        {
+            "candidate_id": "Candidate_4",
+            "name": "String Inverter Sub-Array (6 Channels)",
+            "column": "target_strings_6",
+            "channels_included": [
+                "inv_01",
+                "inv_02",
+                "inv_03",
+                "inv_05",
+                "inv_07",
+                "inv_08"
+            ],
+            "channels_excluded": [
+                "inv_04, 09, 10, 11 (large units)",
+                "inv_06 (idle)"
+            ],
+            "hypothesis": "Only small string inverters (7-15 kW) are genuine array inverters. Covers ~63 kW AC peak (~75 kW DC), leaving ~35 kW unmonitored.",
+            "plausibility": "PLAUSIBLE FOR MONITORED SUB-ARRAY. Under-represents 110 kW DC total capacity.",
+            "peak_15m_kW": 62.374333333333325,
+            "mean_15m_kW": 14.90842872516961,
+            "peak_hourly_kW": 62.087500000000006,
+            "mean_hourly_kW": 14.42272585336277
+        },
+        {
+            "candidate_id": "Candidate_5",
+            "name": "Primary Twin Combiners (inv_04 + inv_10)",
+            "column": "target_pair_04_10",
+            "channels_included": [
+                "inv_04",
+                "inv_10"
+            ],
+            "channels_excluded": [
+                "inv_01..03, 05..08, 09, 11"
+            ],
+            "hypothesis": "Two ~44 kW inverters summing to 88 kW AC peak. Corresponds to exact 1.25 DC/AC loading ratio on 110.0 kW DC nameplate (110 / 1.25 = 88 kW).",
+            "plausibility": "HIGHLY PLAUSIBLE FOR 110 kW DC. Exactly reconciles AC output with static 110 kW DC metadata.",
+            "peak_15m_kW": 87.454,
+            "mean_15m_kW": 30.67816723914598,
+            "peak_hourly_kW": 86.85074999999999,
+            "mean_hourly_kW": 20.084929215236972
+        }
+    ],
+    "prediction_benchmarks": [
+        {
+            "candidate_id": "Candidate_1",
+            "candidate_name": "Naive 11-Channel (Flawed Baseline)",
+            "description": "Sums all 11 files with duplicate inv11",
+            "observed_peak_kW": 234.085396,
+            "test_peak_kW": 203.94461191666667,
+            "registered_nameplate_kW_DC": 110.0,
+            "models": {
+                "Persistence": {
+                    "model": "1-Hour Persistence Baseline",
+                    "MAE_kW": 16.85393479158793,
+                    "RMSE_kW": 29.91538895963971,
+                    "R2": 0.8098726758353999,
+                    "nMAE_peak_pct": 7.199908699809675,
+                    "nRMSE_peak_pct": 12.779690433844795,
+                    "nMAE_nameplate_110kW_pct": 15.321758901443571,
+                    "nRMSE_nameplate_110kW_pct": 27.19580814512701
+                },
+                "RandomForest": {
+                    "model": "Random Forest Regressor",
+                    "MAE_kW": 13.21257023845075,
+                    "RMSE_kW": 26.77476482545352,
+                    "R2": 0.8476976662839905,
+                    "nMAE_peak_pct": 5.644337692237217,
+                    "nRMSE_peak_pct": 11.438032992649196,
+                    "nMAE_nameplate_110kW_pct": 12.011427489500683,
+                    "nRMSE_nameplate_110kW_pct": 24.340695295866837
+                },
+                "XGBoost": {
+                    "model": "XGBoost Regressor",
+                    "MAE_kW": 13.61928694618272,
+                    "RMSE_kW": 26.39760767500214,
+                    "R2": 0.8519581961359289,
+                    "nMAE_peak_pct": 5.818084843781849,
+                    "nRMSE_peak_pct": 11.276913522192618,
+                    "nMAE_nameplate_110kW_pct": 12.3811699510752,
+                    "nRMSE_nameplate_110kW_pct": 23.99782515909285
+                }
+            }
+        },
+        {
+            "candidate_id": "Candidate_2",
+            "candidate_name": "De-duplicated Full Array (9 Channels)",
+            "description": "All distinct channels, site expansion hypothesis (~190 kW AC)",
+            "observed_peak_kW": 190.5040833333333,
+            "test_peak_kW": 175.30575,
+            "registered_nameplate_kW_DC": 110.0,
+            "models": {
+                "Persistence": {
+                    "model": "1-Hour Persistence Baseline",
+                    "MAE_kW": 14.497850114174863,
+                    "RMSE_kW": 25.757547558672183,
+                    "R2": 0.8085896462051375,
+                    "nMAE_peak_pct": 7.610256882949507,
+                    "nRMSE_peak_pct": 13.520732526033616,
+                    "nMAE_nameplate_110kW_pct": 13.179863740158968,
+                    "nRMSE_nameplate_110kW_pct": 23.41595232606562
+                },
+                "RandomForest": {
+                    "model": "Random Forest Regressor",
+                    "MAE_kW": 11.323573198527374,
+                    "RMSE_kW": 21.99792820727731,
+                    "R2": 0.8603888945358313,
+                    "nMAE_peak_pct": 5.944005503920891,
+                    "nRMSE_peak_pct": 11.547221362592305,
+                    "nMAE_nameplate_110kW_pct": 10.294157453206704,
+                    "nRMSE_nameplate_110kW_pct": 19.998116552070282
+                },
+                "XGBoost": {
+                    "model": "XGBoost Regressor",
+                    "MAE_kW": 11.601781522872525,
+                    "RMSE_kW": 21.736176914559856,
+                    "R2": 0.8636915668433921,
+                    "nMAE_peak_pct": 6.090043488764691,
+                    "nRMSE_peak_pct": 11.409822054326844,
+                    "nMAE_nameplate_110kW_pct": 10.547074111702296,
+                    "nRMSE_nameplate_110kW_pct": 19.760160831418048
+                }
+            }
+        },
+        {
+            "candidate_id": "Candidate_3",
+            "candidate_name": "Triple Combiners (inv04+09+10)",
+            "description": "Three large commercial building inverters (~129 kW AC)",
+            "observed_peak_kW": 129.31216666666666,
+            "test_peak_kW": 114.43008333333331,
+            "registered_nameplate_kW_DC": 110.0,
+            "models": {
+                "Persistence": {
+                    "model": "1-Hour Persistence Baseline",
+                    "MAE_kW": 9.519051584489398,
+                    "RMSE_kW": 17.025877148969172,
+                    "R2": 0.807287491461025,
+                    "nMAE_peak_pct": 7.361296179521185,
+                    "nRMSE_peak_pct": 13.166492827281662,
+                    "nMAE_nameplate_110kW_pct": 8.653683258626724,
+                    "nRMSE_nameplate_110kW_pct": 15.478070135426519
+                },
+                "RandomForest": {
+                    "model": "Random Forest Regressor",
+                    "MAE_kW": 7.500475098680787,
+                    "RMSE_kW": 14.773878214763789,
+                    "R2": 0.8548958133339378,
+                    "nMAE_peak_pct": 5.800285690065865,
+                    "nRMSE_peak_pct": 11.424971520929681,
+                    "nMAE_nameplate_110kW_pct": 6.818613726073443,
+                    "nRMSE_nameplate_110kW_pct": 13.43079837705799
+                },
+                "XGBoost": {
+                    "model": "XGBoost Regressor",
+                    "MAE_kW": 7.709443073297902,
+                    "RMSE_kW": 14.672909217653267,
+                    "R2": 0.8568724046261488,
+                    "nMAE_peak_pct": 5.961885313677292,
+                    "nRMSE_peak_pct": 11.346889929913736,
+                    "nMAE_nameplate_110kW_pct": 7.008584612089002,
+                    "nRMSE_nameplate_110kW_pct": 13.339008379684788
+                }
+            }
+        },
+        {
+            "candidate_id": "Candidate_4",
+            "candidate_name": "String Sub-Array (6 Channels)",
+            "description": "Only small string inverters (~62 kW AC, leaving ~35 kW unmonitored)",
+            "observed_peak_kW": 62.087500000000006,
+            "test_peak_kW": 61.26908333333333,
+            "registered_nameplate_kW_DC": 110.0,
+            "models": {
+                "Persistence": {
+                    "model": "1-Hour Persistence Baseline",
+                    "MAE_kW": 5.007195686409254,
+                    "RMSE_kW": 8.838083310887793,
+                    "R2": 0.8081864148876524,
+                    "nMAE_peak_pct": 8.06474038479445,
+                    "nRMSE_peak_pct": 14.234883528709952,
+                    "nMAE_nameplate_110kW_pct": 4.551996078553867,
+                    "nRMSE_nameplate_110kW_pct": 8.034621191716175
+                },
+                "RandomForest": {
+                    "model": "Random Forest Regressor",
+                    "MAE_kW": 4.150849596971565,
+                    "RMSE_kW": 7.683940133156566,
+                    "R2": 0.8550123116552537,
+                    "nMAE_peak_pct": 6.6854835465618105,
+                    "nRMSE_peak_pct": 12.37598571879455,
+                    "nMAE_nameplate_110kW_pct": 3.773499633610513,
+                    "nRMSE_nameplate_110kW_pct": 6.985400121051424
+                },
+                "XGBoost": {
+                    "model": "XGBoost Regressor",
+                    "MAE_kW": 4.260355154389475,
+                    "RMSE_kW": 7.597577442436749,
+                    "R2": 0.8582531385221592,
+                    "nMAE_peak_pct": 6.861856499922649,
+                    "nRMSE_peak_pct": 12.236887364504527,
+                    "nMAE_nameplate_110kW_pct": 3.873050140354068,
+                    "nRMSE_nameplate_110kW_pct": 6.906888584033408
+                }
+            }
+        },
+        {
+            "candidate_id": "Candidate_5",
+            "candidate_name": "Twin Combiners (inv04+10, 1.25 ILR)",
+            "description": "Reconciles with 110 kW DC nameplate via 1.25 DC/AC loading ratio (~87 kW AC)",
+            "observed_peak_kW": 86.85074999999999,
+            "test_peak_kW": 72.01441666666668,
+            "registered_nameplate_kW_DC": 110.0,
+            "models": {
+                "Persistence": {
+                    "model": "1-Hour Persistence Baseline",
+                    "MAE_kW": 6.009050496428009,
+                    "RMSE_kW": 10.673487674603795,
+                    "R2": 0.8108563145339236,
+                    "nMAE_peak_pct": 6.918823955380937,
+                    "nRMSE_peak_pct": 12.28945941699271,
+                    "nMAE_nameplate_110kW_pct": 5.4627731785709175,
+                    "nRMSE_nameplate_110kW_pct": 9.703170613276177
+                },
+                "RandomForest": {
+                    "model": "Random Forest Regressor",
+                    "MAE_kW": 4.928887030307546,
+                    "RMSE_kW": 10.294459735347594,
+                    "R2": 0.8240512200312766,
+                    "nMAE_peak_pct": 5.675123162790818,
+                    "nRMSE_peak_pct": 11.853046445019295,
+                    "nMAE_nameplate_110kW_pct": 4.480806391188678,
+                    "nRMSE_nameplate_110kW_pct": 9.358599759406903
+                },
+                "XGBoost": {
+                    "model": "XGBoost Regressor",
+                    "MAE_kW": 5.381582456981893,
+                    "RMSE_kW": 10.495572839639111,
+                    "R2": 0.8171093787353721,
+                    "nMAE_peak_pct": 6.196356919176741,
+                    "nRMSE_peak_pct": 12.084608180860974,
+                    "nMAE_nameplate_110kW_pct": 4.892347688165357,
+                    "nRMSE_nameplate_110kW_pct": 9.541429854217375
+                }
+            }
+        }
+    ],
+    "anomaly_detection": {
+        "Candidate_2": {
+            "candidate_id": "Candidate_2",
+            "telemetry_file": "candidate_2_hourly.csv",
+            "peak_capacity_kW": 190.5040833333333,
+            "ground_truth_status": "UNLABELED / NO MAINTENANCE GROUND TRUTH",
+            "ground_truth_disclaimer": "NREL PVDAQ System 2105 telemetry lacks operator maintenance logs, work orders, or labeled fault logs. True physical Precision, Recall, False Alarm Rate, and fault-detection accuracy CANNOT be calculated. All alarms represent unconfirmed statistical deviations or heuristic rule flags.",
+            "environmental_novelty_definition": "Environmental novelty is defined as multivariate out-of-distribution density identified by Isolation Forest across (GHI, Temperature, Wind_Speed, Effective_GHI). Disagreements between detectors represent statistical feature novelty, NOT independently validated severe meteorological events.",
+            "statistical_residual_vs_physical_fault": "Statistical residual exceedances mark timestamps where actual output falls >2.5 sigma below the XGBoost expectation. While consistent with operational degradation, soiling, grid curtailment, or sub-string trips, they remain unconfirmed without field verification.",
+            "calibration_parameters": {
+                "dev_records": 31043,
+                "empirical_contamination_pct": 1.0,
+                "daylight_records_calibrated": 15375,
+                "daylight_median_residual_kW": -1.5575495402018191,
+                "daylight_MAD_kW": 10.421501586914076,
+                "daylight_robust_sigma_kW": 15.450918252758807,
+                "daylight_residual_threshold_kW": 37.0697460916952
+            },
+            "test_evaluation": {
+                "test_records": 7761,
+                "test_date_start": "2022-09-18 00:00:00",
+                "test_date_end": "2023-11-08 11:00:00",
+                "raw_detector_triggers": {
+                    "environmental_outliers": 0,
+                    "sensor_data_quality_errors": 0,
+                    "potential_operational_anomalies": 347,
+                    "isolation_forest_triggers": 204,
+                    "statistical_residual_exceedances": 472
+                },
+                "reconciled_mutually_exclusive_classification": {
+                    "Normal Generation": {
+                        "count": 6970,
+                        "percentage": 89.80801443113002
+                    },
+                    "Statistical Residual Exceedance": {
+                        "count": 444,
+                        "percentage": 5.7209122535755705
+                    },
+                    "Potential Operational Anomaly": {
+                        "count": 347,
+                        "percentage": 4.47107331529442
+                    }
+                }
+            }
+        },
+        "Candidate_5": {
+            "candidate_id": "Candidate_5",
+            "telemetry_file": "candidate_5_hourly.csv",
+            "peak_capacity_kW": 86.85074999999999,
+            "ground_truth_status": "UNLABELED / NO MAINTENANCE GROUND TRUTH",
+            "ground_truth_disclaimer": "NREL PVDAQ System 2105 telemetry lacks operator maintenance logs, work orders, or labeled fault logs. True physical Precision, Recall, False Alarm Rate, and fault-detection accuracy CANNOT be calculated. All alarms represent unconfirmed statistical deviations or heuristic rule flags.",
+            "environmental_novelty_definition": "Environmental novelty is defined as multivariate out-of-distribution density identified by Isolation Forest across (GHI, Temperature, Wind_Speed, Effective_GHI). Disagreements between detectors represent statistical feature novelty, NOT independently validated severe meteorological events.",
+            "statistical_residual_vs_physical_fault": "Statistical residual exceedances mark timestamps where actual output falls >2.5 sigma below the XGBoost expectation. While consistent with operational degradation, soiling, grid curtailment, or sub-string trips, they remain unconfirmed without field verification.",
+            "calibration_parameters": {
+                "dev_records": 31043,
+                "empirical_contamination_pct": 1.0,
+                "daylight_records_calibrated": 15375,
+                "daylight_median_residual_kW": -0.9266584968566889,
+                "daylight_MAD_kW": 4.7499474245707205,
+                "daylight_robust_sigma_kW": 7.04227205166855,
+                "daylight_residual_threshold_kW": 16.679021632314686
+            },
+            "test_evaluation": {
+                "test_records": 7761,
+                "test_date_start": "2022-09-18 00:00:00",
+                "test_date_end": "2023-11-08 11:00:00",
+                "raw_detector_triggers": {
+                    "environmental_outliers": 0,
+                    "sensor_data_quality_errors": 0,
+                    "potential_operational_anomalies": 444,
+                    "isolation_forest_triggers": 252,
+                    "statistical_residual_exceedances": 684
+                },
+                "reconciled_mutually_exclusive_classification": {
+                    "Normal Generation": {
+                        "count": 6683,
+                        "percentage": 86.11003736631876
+                    },
+                    "Statistical Residual Exceedance": {
+                        "count": 634,
+                        "percentage": 8.169050380105656
+                    },
+                    "Potential Operational Anomaly": {
+                        "count": 444,
+                        "percentage": 5.7209122535755705
+                    }
+                }
+            }
+        }
+    }
+}

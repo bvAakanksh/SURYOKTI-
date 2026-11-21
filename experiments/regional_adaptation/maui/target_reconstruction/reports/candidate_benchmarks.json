@@ -1,0 +1,202 @@
+[
+    {
+        "candidate_id": "Candidate_1",
+        "candidate_name": "Naive 11-Channel (Flawed Baseline)",
+        "description": "Sums all 11 files with duplicate inv11",
+        "observed_peak_kW": 234.085396,
+        "test_peak_kW": 203.94461191666667,
+        "registered_nameplate_kW_DC": 110.0,
+        "models": {
+            "Persistence": {
+                "model": "1-Hour Persistence Baseline",
+                "MAE_kW": 16.85393479158793,
+                "RMSE_kW": 29.91538895963971,
+                "R2": 0.8098726758353999,
+                "nMAE_peak_pct": 7.199908699809675,
+                "nRMSE_peak_pct": 12.779690433844795,
+                "nMAE_nameplate_110kW_pct": 15.321758901443571,
+                "nRMSE_nameplate_110kW_pct": 27.19580814512701
+            },
+            "RandomForest": {
+                "model": "Random Forest Regressor",
+                "MAE_kW": 13.21257023845075,
+                "RMSE_kW": 26.77476482545352,
+                "R2": 0.8476976662839905,
+                "nMAE_peak_pct": 5.644337692237217,
+                "nRMSE_peak_pct": 11.438032992649196,
+                "nMAE_nameplate_110kW_pct": 12.011427489500683,
+                "nRMSE_nameplate_110kW_pct": 24.340695295866837
+            },
+            "XGBoost": {
+                "model": "XGBoost Regressor",
+                "MAE_kW": 13.61928694618272,
+                "RMSE_kW": 26.39760767500214,
+                "R2": 0.8519581961359289,
+                "nMAE_peak_pct": 5.818084843781849,
+                "nRMSE_peak_pct": 11.276913522192618,
+                "nMAE_nameplate_110kW_pct": 12.3811699510752,
+                "nRMSE_nameplate_110kW_pct": 23.99782515909285
+            }
+        }
+    },
+    {
+        "candidate_id": "Candidate_2",
+        "candidate_name": "De-duplicated Full Array (9 Channels)",
+        "description": "All distinct channels, site expansion hypothesis (~190 kW AC)",
+        "observed_peak_kW": 190.5040833333333,
+        "test_peak_kW": 175.30575,
+        "registered_nameplate_kW_DC": 110.0,
+        "models": {
+            "Persistence": {
+                "model": "1-Hour Persistence Baseline",
+                "MAE_kW": 14.497850114174863,
+                "RMSE_kW": 25.757547558672183,
+                "R2": 0.8085896462051375,
+                "nMAE_peak_pct": 7.610256882949507,
+                "nRMSE_peak_pct": 13.520732526033616,
+                "nMAE_nameplate_110kW_pct": 13.179863740158968,
+                "nRMSE_nameplate_110kW_pct": 23.41595232606562
+            },
+            "RandomForest": {
+                "model": "Random Forest Regressor",
+                "MAE_kW": 11.323573198527374,
+                "RMSE_kW": 21.99792820727731,
+                "R2": 0.8603888945358313,
+                "nMAE_peak_pct": 5.944005503920891,
+                "nRMSE_peak_pct": 11.547221362592305,
+                "nMAE_nameplate_110kW_pct": 10.294157453206704,
+                "nRMSE_nameplate_110kW_pct": 19.998116552070282
+            },
+            "XGBoost": {
+                "model": "XGBoost Regressor",
+                "MAE_kW": 11.601781522872525,
+                "RMSE_kW": 21.736176914559856,
+                "R2": 0.8636915668433921,
+                "nMAE_peak_pct": 6.090043488764691,
+                "nRMSE_peak_pct": 11.409822054326844,
+                "nMAE_nameplate_110kW_pct": 10.547074111702296,
+                "nRMSE_nameplate_110kW_pct": 19.760160831418048
+            }
+        }
+    },
+    {
+        "candidate_id": "Candidate_3",
+        "candidate_name": "Triple Combiners (inv04+09+10)",
+        "description": "Three large commercial building inverters (~129 kW AC)",
+        "observed_peak_kW": 129.31216666666666,
+        "test_peak_kW": 114.43008333333331,
+        "registered_nameplate_kW_DC": 110.0,
+        "models": {
+            "Persistence": {
+                "model": "1-Hour Persistence Baseline",
+                "MAE_kW": 9.519051584489398,
+                "RMSE_kW": 17.025877148969172,
+                "R2": 0.807287491461025,
+                "nMAE_peak_pct": 7.361296179521185,
+                "nRMSE_peak_pct": 13.166492827281662,
+                "nMAE_nameplate_110kW_pct": 8.653683258626724,
+                "nRMSE_nameplate_110kW_pct": 15.478070135426519
+            },
+            "RandomForest": {
+                "model": "Random Forest Regressor",
+                "MAE_kW": 7.500475098680787,
+                "RMSE_kW": 14.773878214763789,
+                "R2": 0.8548958133339378,
+                "nMAE_peak_pct": 5.800285690065865,
+                "nRMSE_peak_pct": 11.424971520929681,
+                "nMAE_nameplate_110kW_pct": 6.818613726073443,
+                "nRMSE_nameplate_110kW_pct": 13.43079837705799
+            },
+            "XGBoost": {
+                "model": "XGBoost Regressor",
+                "MAE_kW": 7.709443073297902,
+                "RMSE_kW": 14.672909217653267,
+                "R2": 0.8568724046261488,
+                "nMAE_peak_pct": 5.961885313677292,
+                "nRMSE_peak_pct": 11.346889929913736,
+                "nMAE_nameplate_110kW_pct": 7.008584612089002,
+                "nRMSE_nameplate_110kW_pct": 13.339008379684788
+            }
+        }
+    },
+    {
+        "candidate_id": "Candidate_4",
+        "candidate_name": "String Sub-Array (6 Channels)",
+        "description": "Only small string inverters (~62 kW AC, leaving ~35 kW unmonitored)",
+        "observed_peak_kW": 62.087500000000006,
+        "test_peak_kW": 61.26908333333333,
+        "registered_nameplate_kW_DC": 110.0,
+        "models": {
+            "Persistence": {
+                "model": "1-Hour Persistence Baseline",
+                "MAE_kW": 5.007195686409254,
+                "RMSE_kW": 8.838083310887793,
+                "R2": 0.8081864148876524,
+                "nMAE_peak_pct": 8.06474038479445,
+                "nRMSE_peak_pct": 14.234883528709952,
+                "nMAE_nameplate_110kW_pct": 4.551996078553867,
+                "nRMSE_nameplate_110kW_pct": 8.034621191716175
+            },
+            "RandomForest": {
+                "model": "Random Forest Regressor",
+                "MAE_kW": 4.150849596971565,
+                "RMSE_kW": 7.683940133156566,
+                "R2": 0.8550123116552537,
+                "nMAE_peak_pct": 6.6854835465618105,
+                "nRMSE_peak_pct": 12.37598571879455,
+                "nMAE_nameplate_110kW_pct": 3.773499633610513,
+                "nRMSE_nameplate_110kW_pct": 6.985400121051424
+            },
+            "XGBoost": {
+                "model": "XGBoost Regressor",
+                "MAE_kW": 4.260355154389475,
+                "RMSE_kW": 7.597577442436749,
+                "R2": 0.8582531385221592,
+                "nMAE_peak_pct": 6.861856499922649,
+                "nRMSE_peak_pct": 12.236887364504527,
+                "nMAE_nameplate_110kW_pct": 3.873050140354068,
+                "nRMSE_nameplate_110kW_pct": 6.906888584033408
+            }
+        }
+    },
+    {
+        "candidate_id": "Candidate_5",
+        "candidate_name": "Twin Combiners (inv04+10, 1.25 ILR)",
+        "description": "Reconciles with 110 kW DC nameplate via 1.25 DC/AC loading ratio (~87 kW AC)",
+        "observed_peak_kW": 86.85074999999999,
+        "test_peak_kW": 72.01441666666668,
+        "registered_nameplate_kW_DC": 110.0,
+        "models": {
+            "Persistence": {
+                "model": "1-Hour Persistence Baseline",
+                "MAE_kW": 6.009050496428009,
+                "RMSE_kW": 10.673487674603795,
+                "R2": 0.8108563145339236,
+                "nMAE_peak_pct": 6.918823955380937,
+                "nRMSE_peak_pct": 12.28945941699271,
+                "nMAE_nameplate_110kW_pct": 5.4627731785709175,
+                "nRMSE_nameplate_110kW_pct": 9.703170613276177
+            },
+            "RandomForest": {
+                "model": "Random Forest Regressor",
+                "MAE_kW": 4.928887030307546,
+                "RMSE_kW": 10.294459735347594,
+                "R2": 0.8240512200312766,
+                "nMAE_peak_pct": 5.675123162790818,
+                "nRMSE_peak_pct": 11.853046445019295,
+                "nMAE_nameplate_110kW_pct": 4.480806391188678,
+                "nRMSE_nameplate_110kW_pct": 9.358599759406903
+            },
+            "XGBoost": {
+                "model": "XGBoost Regressor",
+                "MAE_kW": 5.381582456981893,
+                "RMSE_kW": 10.495572839639111,
+                "R2": 0.8171093787353721,
+                "nMAE_peak_pct": 6.196356919176741,
+                "nRMSE_peak_pct": 12.084608180860974,
+                "nMAE_nameplate_110kW_pct": 4.892347688165357,
+                "nRMSE_nameplate_110kW_pct": 9.541429854217375
+            }
+        }
+    }
+]

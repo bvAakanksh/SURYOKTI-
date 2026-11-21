@@ -1,0 +1,36 @@
+{
+  "data_file": "Solar Weather Processed Data\\Solar_Weather_Data_Processed.csv",
+  "target": "AC_Output",
+  "feature_columns": [
+    "GHI",
+    "Temperature",
+    "Relative_Humidity",
+    "Wind_Speed",
+    "Wind_Direction",
+    "Hour",
+    "Day",
+    "Month",
+    "SZ_Angle",
+    "SA_Angle",
+    "Hour_sin",
+    "Hour_cos",
+    "Month_sin",
+    "Month_cos",
+    "Wind_Dir_sin",
+    "Wind_Dir_cos",
+    "Effective_GHI",
+    "Thermal_Stress"
+  ],
+  "development_rows": 2221,
+  "final_test_rows": 556,
+  "selected_rf": "RF_Regularized",
+  "selected_xgb": "XGB_Compact",
+  "selected_meta_learner": "RidgeCV",
+  "final_test_metrics": {
+    "MAE_kW": 64.7595873872364,
+    "RMSE_kW": 113.50390188477878,
+    "R2": 0.9114708281123224
+  },
+  "timestamp_column": null,
+  "note": "Model fit on development data; final chronological test kept independent."
+}
